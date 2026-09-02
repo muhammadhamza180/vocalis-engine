@@ -1,0 +1,68 @@
+{
+  "name": "Apollo Firmographic Enrichment & Retell Voice Caller Bridge",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "inbound-lead-triage",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Inbound Lead Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.apollo.io/v1/people/match",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"api_key\": \"YOUR_APOLLO_API_KEY_HERE\",\n  \"email\": \"{{ $json.body.email }}\",\n  \"first_name\": \"{{ $json.body.firstName }}\",\n  \"last_name\": \"{{ $json.body.lastName }}\",\n  \"organization_name\": \"{{ $json.body.company }}\"\n}"
+      },
+      "id": "2",
+      "name": "Apollo.io Firmographic Lookup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Dynamic prompt compilation with Apollo firmographic data\nconst lead = $items('Inbound Lead Webhook')[0].json.body;\nconst apollo = $items('Apollo.io Firmographic Lookup')[0].json.person || {};\nconst org = apollo.organization || {};\n\nconst enrichedContext = {\n  lead_first_name: lead.firstName || apollo.first_name || 'Founder',\n  lead_last_name: lead.lastName || apollo.last_name || '',\n  lead_job_title: apollo.title || lead.jobTitle || 'Executive',\n  company_name: org.name || lead.company || 'your business',\n  company_annual_revenue: org.estimated_num_employees > 50 ? '$10M+' : '$1M-$5M',\n  company_headcount: org.estimated_num_employees || '10-50',\n  company_industry: org.industry || 'Technology & Services',\n  company_technologies: (org.technologies || []).slice(0, 5).join(', ') || 'CRM, Cloud'\n};\n\nreturn [{ json: { enrichedContext, phone: lead.phone } }];"
+      },
+      "id": "3",
+      "name": "Synthesize Prompt Variables",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.retellai.com/v2/create-phone-call",
+        "method": "POST",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"from_number\": \"+1XXXXXXXXXX\",\n  \"to_number\": \"{{ $json.phone }}\",\n  \"override_agent_id\": \"YOUR_RETELL_AGENT_ID\",\n  \"retell_llm_dynamic_variables\": {{ JSON.stringify($json.enrichedContext) }}\n}"
+      },
+      "id": "4",
+      "name": "Trigger Retell AI Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Inbound Lead Webhook": {
+      "main": [[{ "node": "Apollo.io Firmographic Lookup", "type": "main", "index": 0 }]]
+    },
+    "Apollo.io Firmographic Lookup": {
+      "main": [[{ "node": "Synthesize Prompt Variables", "type": "main", "index": 0 }]]
+    },
+    "Synthesize Prompt Variables": {
+      "main": [[{ "node": "Trigger Retell AI Call", "type": "main", "index": 0 }]]
+    }
+  }
+}

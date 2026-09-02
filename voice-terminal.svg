@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0b0c10"/>
+      <stop offset="100%" stop-color="#050608"/>
+    </linearGradient>
+    <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <clipPath id="termClip">
+      <rect x="10" y="10" width="860" height="320" rx="12"/>
+    </clipPath>
+  </defs>
+
+  <style>
+    .term-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 11px; fill: #94a3b8; font-weight: 600; }
+    .term-code { font-family: 'SF Mono', Monaco, 'Fira Code', Consolas, monospace; font-size: 11px; fill: #e2e8f0; line-height: 1.5; }
+    .term-dim { fill: #64748b; }
+    .term-amber { fill: #f59e0b; font-weight: bold; }
+    .term-green { fill: #10b981; font-weight: bold; }
+    .term-cyan { fill: #06b6d4; font-weight: bold; }
+    .term-magenta { fill: #ec4899; font-weight: bold; }
+    .term-red { fill: #ef4444; font-weight: bold; }
+
+    /* Waveform Animation */
+    @keyframes wavePulse {
+      0%, 100% { transform: scaleY(0.3); }
+      50% { transform: scaleY(1.1); }
+    }
+    .w-1 { animation: wavePulse 0.8s ease-in-out infinite 0.1s; transform-origin: 730px 240px; }
+    .w-2 { animation: wavePulse 0.8s ease-in-out infinite 0.3s; transform-origin: 745px 240px; }
+    .w-3 { animation: wavePulse 0.8s ease-in-out infinite 0.5s; transform-origin: 760px 240px; }
+    .w-4 { animation: wavePulse 0.8s ease-in-out infinite 0.2s; transform-origin: 775px 240px; }
+    .w-5 { animation: wavePulse 0.8s ease-in-out infinite 0.6s; transform-origin: 790px 240px; }
+    .w-6 { animation: wavePulse 0.8s ease-in-out infinite 0.4s; transform-origin: 805px 240px; }
+    .w-7 { animation: wavePulse 0.8s ease-in-out infinite 0.7s; transform-origin: 820px 240px; }
+  </style>
+
+  <g clip-path="url(#termClip)">
+    <rect x="10" y="10" width="860" height="320" rx="12" fill="url(#bgGrad)" stroke="#27272a" stroke-width="1.5"/>
+
+    <!-- macOS Terminal Header -->
+    <rect x="10" y="10" width="860" height="36" fill="#12131a"/>
+    <circle cx="32" cy="28" r="5.5" fill="#ef4444"/>
+    <circle cx="50" cy="28" r="5.5" fill="#f59e0b"/>
+    <circle cx="68" cy="28" r="5.5" fill="#10b981"/>
+    <text x="440" y="32" text-anchor="middle" class="term-title">hamza@ai-telephony: ~/voice-mesh/retell-apollo-orchestrator</text>
+
+    <!-- Terminal Content -->
+    <g transform="translate(30, 68)" class="term-code">
+      <!-- Line 1: Inbound Lead Trigger -->
+      <text x="0" y="0">
+        <tspan class="term-dim">09:14:02.114</tspan> <tspan class="term-amber">[INBOUND_HOOK]</tspan> <tspan>Form submit: </tspan><tspan class="term-cyan">alex.vance@blackmesa-energy.com</tspan> <tspan class="term-dim">(+1 415 555 0192)</tspan>
+      </text>
+
+      <!-- Line 2: Apollo Enrichment -->
+      <text x="0" y="24">
+        <tspan class="term-dim">09:14:02.428</tspan> <tspan class="term-green">[APOLLO_ENRICH]</tspan> <tspan>Fetched in </tspan><tspan class="term-green">314ms</tspan> <tspan class="term-dim">::</tspan> <tspan class="term-magenta">Co: BlackMesa Energy</tspan> <tspan class="term-dim">•</tspan> <tspan>Rev: $42M</tspan> <tspan class="term-dim">•</tspan> <tspan>Headcount: 180</tspan> <tspan class="term-dim">•</tspan> <tspan>Tech: HubSpot, Jobber</tspan>
+      </text>
+
+      <!-- Line 3: Dynamic Prompt Synthesis -->
+      <text x="0" y="48">
+        <tspan class="term-dim">09:14:02.510</tspan> <tspan class="term-cyan">[PROMPT_SYNTH]</tspan> <tspan>Injected </tspan><tspan class="term-cyan">14 custom XML variables</tspan> <tspan class="term-dim">:: Angle: "Commercial Fleet Substation Upgrade ROI"</tspan>
+      </text>
+
+      <!-- Line 4: Retell Audio Stream Init -->
+      <text x="0" y="72">
+        <tspan class="term-dim">09:14:02.790</tspan> <tspan class="term-amber">[RETELL_DISPATCH]</tspan> <tspan>Call outbound triggered via Twilio SIP trunk </tspan><tspan class="term-green">[CALL_ACTIVE: #CALL-9942]</tspan>
+      </text>
+
+      <!-- Line 5: Call State & Audio Latency -->
+      <text x="0" y="96">
+        <tspan class="term-dim">09:14:03.420</tspan> <tspan class="term-green">[VOICE_CONNECTED]</tspan> <tspan>Speed-to-Lead: </tspan><tspan class="term-amber">1.306s</tspan> <tspan class="term-dim">|</tspan> <tspan>LLM TTFT: </tspan><tspan class="term-green">480ms</tspan> <tspan class="term-dim">|</tspan> <tspan>Audio Pipeline: </tspan><tspan class="term-cyan">740ms (Sub-1s)</tspan>
+      </text>
+
+      <!-- Divider -->
+      <line x1="0" y1="116" x2="820" y2="116" stroke="#27272a" stroke-width="1"/>
+
+      <!-- Live Dialogue Box -->
+      <text x="0" y="136">
+        <tspan class="term-green">🤖 AI AGENT (SARAH):</tspan> <tspan class="term-dim">"Hi Alex, Muhammad Hamza's office calling following up on your fleet inquiry for BlackMesa Energy..."</tspan>
+      </text>
+      <text x="0" y="160">
+        <tspan class="term-cyan">👤 PROSPECT (ALEX):</tspan> <tspan class="term-dim">"Oh wow, that was fast. Yeah, we're currently scaling our 180 technicians and our dispatch has a bottleneck..."</tspan>
+      </text>
+      <text x="0" y="184">
+        <tspan class="term-amber">⚡ DECISION &amp; CALENDAR:</tspan> <tspan class="term-green">[LEAD_SCORE: 96/100 (TIER-1 ENTERPRISE)]</tspan> <tspan>→ Slot locked for Thursday 2:00 PM EST</tspan>
+      </text>
+    </g>
+
+    <!-- Audio Waveform Visualizer on bottom right -->
+    <g transform="translate(0, 40)">
+      <text x="775" y="215" text-anchor="middle" font-family="'SF Mono', Monaco, monospace" font-size="9" fill="#10b981" font-weight="bold">VOICE STREAM ACTIVE</text>
+      <rect x="730" y="222" width="6" height="35" rx="3" fill="url(#waveGrad)" class="w-1"/>
+      <rect x="745" y="222" width="6" height="35" rx="3" fill="url(#waveGrad)" class="w-2"/>
+      <rect x="760" y="222" width="6" height="35" rx="3" fill="url(#waveGrad)" class="w-3"/>
+      <rect x="775" y="222" width="6" height="35" rx="3" fill="url(#waveGrad)" class="w-4"/>
+      <rect x="790" y="222" width="6" height="35" rx="3" fill="url(#waveGrad)" class="w-5"/>
+      <rect x="805" y="222" width="6" height="35" rx="3" fill="url(#waveGrad)" class="w-6"/>
+      <rect x="820" y="222" width="6" height="35" rx="3" fill="url(#waveGrad)" class="w-7"/>
+    </g>
+  </g>
+</svg>
