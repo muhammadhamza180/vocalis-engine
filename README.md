@@ -1,7 +1,7 @@
 <div align="center">
 
-# ⚡ Apollo-Enriched Real-Time Inbound Voice Engine
-### Sub-850ms Autonomous Voice Caller with Live B2B Firmographic Intelligence &amp; Speed-to-Lead Automation
+# 🎙️ Vocalis Engine (`vocalis-engine`)
+### Sub-850ms Autonomous Voice Caller with Live B2B Firmographic Intelligence & Speed-to-Lead Automation
 
 <br/>
 
